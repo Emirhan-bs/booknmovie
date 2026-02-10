@@ -1,0 +1,73 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0f1e"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="bookGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="100%" stop-color="#F7C59F"/>
+    </linearGradient>
+    <linearGradient id="reelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1A2E"/>
+      <stop offset="100%" stop-color="#16213E"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="96" fill="url(#bg)" stroke="#FF6B35" stroke-width="1.5" stroke-opacity="0.4"/>
+
+  <!-- Ambient glow -->
+  <circle cx="70" cy="90" r="50" fill="#FF6B35" fill-opacity="0.06"/>
+  <circle cx="130" cy="110" r="40" fill="#6060cc" fill-opacity="0.04"/>
+
+  <!-- Book body -->
+  <rect x="22" y="48" width="72" height="104" rx="6" fill="url(#bookGrad)" filter="url(#glow)"/>
+  <!-- Book page interior -->
+  <rect x="30" y="56" width="56" height="88" rx="3" fill="#FFF5ED" fill-opacity="0.92"/>
+  <!-- Book spine -->
+  <rect x="22" y="48" width="10" height="104" rx="4" fill="#E55A2B"/>
+
+  <!-- Text lines on book -->
+  <line x1="38" y1="74" x2="82" y2="74" stroke="#FF6B35" stroke-width="3" stroke-linecap="round" stroke-opacity="0.7"/>
+  <line x1="38" y1="86" x2="82" y2="86" stroke="#FF6B35" stroke-width="3" stroke-linecap="round" stroke-opacity="0.7"/>
+  <line x1="38" y1="98" x2="82" y2="98" stroke="#FF6B35" stroke-width="3" stroke-linecap="round" stroke-opacity="0.7"/>
+  <line x1="38" y1="110" x2="68" y2="110" stroke="#FF6B35" stroke-width="3" stroke-linecap="round" stroke-opacity="0.4"/>
+
+  <!-- Bookmark ribbon -->
+  <polygon points="74,56 82,56 82,70 78,65 74,70" fill="#FF6B35" fill-opacity="0.8"/>
+
+  <!-- Film reel outer circle -->
+  <circle cx="138" cy="96" r="44" fill="url(#reelGrad)" stroke="#FF6B35" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- Film reel inner ring -->
+  <circle cx="138" cy="96" r="28" fill="none" stroke="#FF6B35" stroke-width="1" stroke-opacity="0.3"/>
+
+  <!-- Film reel perforations -->
+  <circle cx="138" cy="52" r="5.5" fill="#FF6B35" fill-opacity="0.6"/>
+  <circle cx="176" cy="74" r="5.5" fill="#FF6B35" fill-opacity="0.6"/>
+  <circle cx="176" cy="118" r="5.5" fill="#FF6B35" fill-opacity="0.6"/>
+  <circle cx="138" cy="140" r="5.5" fill="#FF6B35" fill-opacity="0.6"/>
+  <circle cx="100" cy="118" r="5.5" fill="#FF6B35" fill-opacity="0.6"/>
+  <circle cx="100" cy="74" r="5.5" fill="#FF6B35" fill-opacity="0.6"/>
+
+  <!-- Center hub -->
+  <circle cx="138" cy="96" r="14" fill="#FF6B35" fill-opacity="0.18"/>
+  <circle cx="138" cy="96" r="5" fill="#FF6B35"/>
+
+  <!-- Play triangle -->
+  <polygon points="126,86 126,106 150,96" fill="#FF6B35" fill-opacity="0.9"/>
+
+  <!-- Connector between book and reel -->
+  <rect x="94" y="94" width="14" height="4" rx="2" fill="#FF6B35" fill-opacity="0.5"/>
+
+  <!-- Stars/sparkles -->
+  <circle cx="60" cy="166" r="3" fill="#FF6B35" fill-opacity="0.7"/>
+  <circle cx="152" cy="164" r="2.5" fill="#F7C59F" fill-opacity="0.5"/>
+  <circle cx="170" cy="50" r="2" fill="#FF6B35" fill-opacity="0.4"/>
+  <circle cx="45" cy="38" r="1.5" fill="#F7C59F" fill-opacity="0.3"/>
+</svg>

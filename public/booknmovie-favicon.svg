@@ -1,0 +1,40 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bookG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="100%" stop-color="#F7C59F"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="#0f0f1e"/>
+
+  <!-- Book -->
+  <rect x="3" y="6" width="12" height="20" rx="2" fill="url(#bookG)"/>
+  <rect x="5" y="8" width="8" height="16" rx="1" fill="#FFF5ED" fill-opacity="0.9"/>
+  <rect x="3" y="6" width="2.5" height="20" rx="1" fill="#E55A2B"/>
+
+  <!-- Book lines -->
+  <line x1="7" y1="12" x2="13" y2="12" stroke="#FF6B35" stroke-width="1" stroke-linecap="round"/>
+  <line x1="7" y1="15" x2="13" y2="15" stroke="#FF6B35" stroke-width="1" stroke-linecap="round"/>
+  <line x1="7" y1="18" x2="11" y2="18" stroke="#FF6B35" stroke-width="1" stroke-linecap="round" stroke-opacity="0.5"/>
+
+  <!-- Film reel -->
+  <circle cx="23" cy="16" r="7.5" fill="#1a1a2e" stroke="#FF6B35" stroke-width="1.2"/>
+
+  <!-- Reel holes -->
+  <circle cx="23" cy="8.5" r="1.2" fill="#FF6B35" fill-opacity="0.7"/>
+  <circle cx="29.5" cy="12.5" r="1.2" fill="#FF6B35" fill-opacity="0.7"/>
+  <circle cx="29.5" cy="19.5" r="1.2" fill="#FF6B35" fill-opacity="0.7"/>
+  <circle cx="23" cy="23.5" r="1.2" fill="#FF6B35" fill-opacity="0.7"/>
+  <circle cx="16.5" cy="19.5" r="1.2" fill="#FF6B35" fill-opacity="0.7"/>
+  <circle cx="16.5" cy="12.5" r="1.2" fill="#FF6B35" fill-opacity="0.7"/>
+
+  <!-- Center + play -->
+  <circle cx="23" cy="16" r="2.5" fill="#FF6B35" fill-opacity="0.25"/>
+  <circle cx="23" cy="16" r="1" fill="#FF6B35"/>
+  <polygon points="20.5,13.5 20.5,18.5 26,16" fill="#FF6B35" fill-opacity="0.85"/>
+
+  <!-- Connector -->
+  <rect x="15" y="15" width="2" height="1.5" rx="0.75" fill="#FF6B35" fill-opacity="0.5"/>
+</svg>
