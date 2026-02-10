@@ -1,4 +1,6 @@
-const BASE_URL = "https://api.themoviedb.org/3";
+const BASE_URL = import.meta.env.DEV
+  ? "https://api.themoviedb.org/3"
+  : "/api/tmdb";
 const BEARER = import.meta.env.VITE_TMDB_BEARER;
 
 const get = async (path, params = {}) => {
