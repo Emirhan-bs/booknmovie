@@ -1,17 +1,31 @@
 import { useState } from "react";
 import { getPosterUrl } from "../services/tmdb";
 
-const GENRE_ICONS = {
-  Fantasy: "✦", "Sci-Fi": "◈", Thriller: "◉", Romance: "♥",
-  Drama: "◆", Horror: "△", Mystery: "◇", Action: "▶", Comedy: "◎",
-  Fiction: "◈", default: "◈",
-};
-
 const GENRE_COLORS = {
-  Fantasy: "#1a472a", "Sci-Fi": "#0d1b2a", Thriller: "#2d1b4e",
-  Romance: "#4a1942", Drama: "#2a1a0a", Horror: "#1a0a0a",
-  Mystery: "#0a1a2a", Action: "#1a1a0a", Comedy: "#2a2a0a",
-  Fiction: "#0d1b2a", default: "#1a1a2e",
+  Fantasy: "#2d1b4e",
+  "Sci-Fi": "#0d1b2e",
+  Thriller: "#2d1040",
+  Romance: "#3d0a30",
+  Drama: "#1a1040",
+  Horror: "#1a0505",
+  Mystery: "#0a1a2e",
+  Action: "#1a1a05",
+  Comedy: "#1a2a05",
+  Fiction: "#0d1b2e",
+  default: "#1a0f2e",
+};
+const GENRE_ICONS = {
+  Fantasy: "✦",
+  "Sci-Fi": "◈",
+  Thriller: "◉",
+  Romance: "♥",
+  Drama: "◆",
+  Horror: "△",
+  Mystery: "◇",
+  Action: "▶",
+  Comedy: "◎",
+  Fiction: "◈",
+  default: "◈",
 };
 
 export default function Card({ item, onClick }) {
@@ -21,10 +35,12 @@ export default function Card({ item, onClick }) {
   const icon = GENRE_ICONS[item.genre] || GENRE_ICONS.default;
   const color = GENRE_COLORS[item.genre] || GENRE_COLORS.default;
 
-  // Get the right image URL
-  const imageUrl = item.type === "movie"
-    ? (item.posterPath ? getPosterUrl(item.posterPath, "w342") : null)
-    : item.coverUrl || null;
+  const imageUrl =
+    item.type === "movie"
+      ? item.posterPath
+        ? getPosterUrl(item.posterPath, "w342")
+        : null
+      : item.coverUrl || null;
 
   const showImage = imageUrl && !imgError;
 
@@ -34,90 +50,200 @@ export default function Card({ item, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? "#1a1a2e" : "#12121f",
-        border: `1px solid ${hovered ? "#FF6B35" : "#1e1e32"}`,
-        borderRadius: "16px", overflow: "hidden",
-        cursor: "pointer", transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
-        transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        boxShadow: hovered ? `0 20px 60px ${color}80, 0 0 0 1px #FF6B3530` : "0 4px 20px #00000050",
-        display: "flex", flexDirection: "column",
+        background: hovered ? "#1a0f2e" : "#13111a",
+        border: `1px solid ${hovered ? "#a855f7" : "#231f2e"}`,
+        borderRadius: "18px",
+        overflow: "hidden",
+        cursor: "pointer",
+        transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+        transform: hovered ? "translateY(-7px)" : "translateY(0)",
+        boxShadow: hovered
+          ? `0 24px 60px ${color}90, 0 0 0 1px #a855f730`
+          : "0 4px 20px #00000060",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      {/* Poster / Cover */}
-      <div style={{
-        height: "240px", position: "relative", overflow: "hidden",
-        background: showImage ? "#000" : `linear-gradient(135deg, ${color} 0%, #0a0a15 100%)`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
+      {/* Poster */}
+      <div
+        style={{
+          height: "260px",
+          position: "relative",
+          overflow: "hidden",
+          background: showImage
+            ? "#000"
+            : `linear-gradient(135deg, ${color} 0%, #0c0a14 100%)`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         {showImage ? (
           <img
             src={imageUrl}
             alt={item.title}
             onError={() => setImgError(true)}
             style={{
-              width: "100%", height: "100%", objectFit: "cover",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
               transition: "transform 0.4s ease",
-              transform: hovered ? "scale(1.06)" : "scale(1)",
+              transform: hovered ? "scale(1.07)" : "scale(1)",
             }}
           />
         ) : (
           <>
-            <div style={{ fontSize: "80px", opacity: 0.12, position: "absolute", transform: "rotate(-15deg) scale(2)", color: "#fff" }}>{icon}</div>
-            <div style={{ fontSize: "56px", position: "relative", zIndex: 1, filter: "drop-shadow(0 4px 12px #00000080)" }}>{icon}</div>
+            <div
+              style={{
+                fontSize: "90px",
+                opacity: 0.1,
+                position: "absolute",
+                transform: "rotate(-15deg) scale(2)",
+                color: "#fff",
+              }}
+            >
+              {icon}
+            </div>
+            <div
+              style={{
+                fontSize: "60px",
+                position: "relative",
+                zIndex: 1,
+                filter: "drop-shadow(0 4px 16px #00000080)",
+              }}
+            >
+              {icon}
+            </div>
           </>
         )}
 
         {/* Type badge */}
-        <div style={{
-          position: "absolute", top: "10px", right: "10px",
-          background: item.type === "movie" ? "#FF6B35" : "#4CAF7D",
-          color: "#fff", fontSize: "10px", fontFamily: "'DM Mono', monospace",
-          padding: "3px 8px", borderRadius: "20px",
-          textTransform: "uppercase", letterSpacing: "1px", fontWeight: "700",
-          backdropFilter: "blur(4px)",
-        }}>{item.type}</div>
+        <div
+          style={{
+            position: "absolute",
+            top: "12px",
+            right: "12px",
+            background: item.type === "movie" ? "#a855f7" : "#10b981",
+            color: "#fff",
+            fontSize: "10px",
+            fontFamily: "'DM Mono', monospace",
+            padding: "4px 10px",
+            borderRadius: "22px",
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+            fontWeight: "700",
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          {item.type === "movie" ? "Film" : "Kitap"}
+        </div>
 
-        {/* Rating badge */}
+        {/* Rating */}
         {item.rating && (
-          <div style={{
-            position: "absolute", top: "10px", left: "10px",
-            background: "#000000aa", backdropFilter: "blur(8px)",
-            color: "#FF6B35", fontSize: "11px", fontFamily: "'DM Mono', monospace",
-            padding: "3px 8px", borderRadius: "20px",
-            display: "flex", alignItems: "center", gap: "3px",
-          }}>★ {typeof item.rating === "number" ? item.rating.toFixed(1) : item.rating}</div>
+          <div
+            style={{
+              position: "absolute",
+              top: "12px",
+              left: "12px",
+              background: "#000000bb",
+              backdropFilter: "blur(8px)",
+              color: "#a855f7",
+              fontSize: "12px",
+              fontFamily: "'DM Mono', monospace",
+              padding: "4px 10px",
+              borderRadius: "22px",
+              display: "flex",
+              alignItems: "center",
+              gap: "3px",
+            }}
+          >
+            ★{" "}
+            {typeof item.rating === "number"
+              ? item.rating.toFixed(1)
+              : item.rating}
+          </div>
         )}
 
-        {/* Gradient overlay */}
-        <div style={{
-          position: "absolute", bottom: 0, left: 0, right: 0,
-          height: "80px",
-          background: "linear-gradient(to top, #12121f, transparent)",
-        }} />
+        <div
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "90px",
+            background: "linear-gradient(to top, #13111a, transparent)",
+          }}
+        />
       </div>
 
       {/* Content */}
-      <div style={{ padding: "14px", flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
-        <h3 style={{
-          margin: 0, color: "#f0f0ff", fontSize: "14px",
-          fontFamily: "'Playfair Display', serif", fontWeight: "700",
-          lineHeight: "1.3",
-          display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden",
-        }}>{item.title}</h3>
-
-        <p style={{ margin: 0, color: "#FF6B35", fontSize: "11px", fontFamily: "'DM Mono', monospace" }}>
-          {item.type === "book"
-            ? `by ${item.author}`
-            : `dir. ${item.director || "Unknown"}`}
+      <div
+        style={{
+          padding: "16px",
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          gap: "7px",
+        }}
+      >
+        <h3
+          style={{
+            margin: 0,
+            color: "#f5f0ff",
+            fontSize: "15px",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontWeight: "700",
+            lineHeight: "1.3",
+            display: "-webkit-box",
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }}
+        >
+          {item.title}
+        </h3>
+        <p
+          style={{
+            margin: 0,
+            color: "#a855f7",
+            fontSize: "12px",
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          {item.type === "book" ? `${item.author}` : `${item.director || ""}`}
           {item.year ? ` · ${item.year}` : ""}
         </p>
-
-        <div style={{ display: "flex", gap: "4px", marginTop: "2px" }}>
-          <span style={{ background: "#1e1e32", color: "#5050a0", fontSize: "10px", fontFamily: "'DM Mono', monospace", padding: "2px 7px", borderRadius: "4px" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "5px",
+            marginTop: "2px",
+            flexWrap: "wrap",
+          }}
+        >
+          <span
+            style={{
+              background: "#1a0f2e",
+              color: "#6050a0",
+              fontSize: "11px",
+              fontFamily: "'DM Mono', monospace",
+              padding: "3px 9px",
+              borderRadius: "6px",
+            }}
+          >
             {item.genre}
           </span>
           {item.language && item.language !== "Unknown" && (
-            <span style={{ background: "#1e1e32", color: "#5050a0", fontSize: "10px", fontFamily: "'DM Mono', monospace", padding: "2px 7px", borderRadius: "4px" }}>
+            <span
+              style={{
+                background: "#1a0f2e",
+                color: "#6050a0",
+                fontSize: "11px",
+                fontFamily: "'DM Mono', monospace",
+                padding: "3px 9px",
+                borderRadius: "6px",
+              }}
+            >
               {item.language}
             </span>
           )}

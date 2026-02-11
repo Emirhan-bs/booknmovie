@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-const GENRES = [
+const GENRES_EN = [
   "All",
   "Action",
   "Comedy",
@@ -24,7 +24,7 @@ const GENRES_TR = [
   "Bilim Kurgu",
   "Gerilim",
 ];
-const GENRE_MAP_TR = {
+const TR_TO_EN = {
   Tümü: "All",
   Aksiyon: "Action",
   Komedi: "Comedy",
@@ -36,8 +36,7 @@ const GENRE_MAP_TR = {
   "Bilim Kurgu": "Sci-Fi",
   Gerilim: "Thriller",
 };
-
-const LANGUAGES_TR = [
+const LANGS_TR = [
   "Tümü",
   "Türkçe",
   "English",
@@ -47,7 +46,7 @@ const LANGUAGES_TR = [
   "Korean",
   "German",
 ];
-const LANGUAGES_EN = [
+const LANGS_EN = [
   "All",
   "Türkçe",
   "English",
@@ -57,11 +56,9 @@ const LANGUAGES_EN = [
   "Korean",
   "German",
 ];
-
 const FORMATS_TR = ["Tümü", "Film", "Kitap"];
 const FORMATS_EN = ["All", "Movie", "Book"];
-
-const YEAR_RANGES = [
+const YEARS = [
   "All",
   "2020-2026",
   "2010-2019",
@@ -71,68 +68,56 @@ const YEAR_RANGES = [
 ];
 
 export default function SearchBar({ onSearch, loading, lang, t }) {
+  const isTR = lang === "tr";
   const [query, setQuery] = useState("");
-  const [genre, setGenre] = useState(lang === "tr" ? "Tümü" : "All");
-  const [format, setFormat] = useState(lang === "tr" ? "Tümü" : "All");
-  const [language, setLanguage] = useState(lang === "tr" ? "Tümü" : "All");
+  const [genre, setGenre] = useState(isTR ? "Tümü" : "All");
+  const [format, setFormat] = useState(isTR ? "Tümü" : "All");
+  const [language, setLanguage] = useState(isTR ? "Tümü" : "All");
   const [yearRange, setYearRange] = useState("All");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const inputRef = useRef(null);
 
-  const getEnglishGenre = (g) => {
-    if (lang === "tr") return GENRE_MAP_TR[g] || g;
-    return g;
-  };
+  const toEnglishGenre = (g) => (isTR ? TR_TO_EN[g] || g : g);
+  const toEnglishFormat = (f) =>
+    isTR ? (f === "Film" ? "Movie" : f === "Kitap" ? "Book" : "All") : f;
+  const allLabel = isTR ? "Tümü" : "All";
 
-  const handleSearch = () => {
+  const doSearch = () => {
     onSearch({
       query,
-      genre: getEnglishGenre(genre),
-      format:
-        lang === "tr"
-          ? format === "Film"
-            ? "Movie"
-            : format === "Kitap"
-              ? "Book"
-              : "All"
-          : format,
-      language: language === "Tümü" ? "All" : language,
+      genre: toEnglishGenre(genre),
+      format: toEnglishFormat(format),
+      language: language === allLabel ? "All" : language,
       yearRange,
     });
   };
-
-  const genres = lang === "tr" ? GENRES_TR : GENRES;
-  const formats = lang === "tr" ? FORMATS_TR : FORMATS_EN;
-  const languages = lang === "tr" ? LANGUAGES_TR : LANGUAGES_EN;
-  const allLabel = lang === "tr" ? "Tümü" : "All";
 
   const FilterRow = ({ label, options, value, onChange }) => (
     <div>
       <p
         style={{
-          margin: "0 0 6px",
-          color: "#5050a0",
-          fontSize: "10px",
+          margin: "0 0 8px",
+          color: "#7060a0",
+          fontSize: "11px",
           fontFamily: "'DM Mono', monospace",
           textTransform: "uppercase",
-          letterSpacing: "1px",
+          letterSpacing: "1.5px",
         }}
       >
         {label}
       </p>
-      <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
         {options.map((opt) => (
           <button
             key={opt}
             onClick={() => onChange(opt)}
             style={{
-              background: value === opt ? "#FF6B3520" : "transparent",
-              border: `1px solid ${value === opt ? "#FF6B35" : "#2a2a4a"}`,
-              color: value === opt ? "#FF6B35" : "#6060a0",
-              padding: "4px 10px",
+              background: value === opt ? "#a855f720" : "transparent",
+              border: `1px solid ${value === opt ? "#a855f7" : "#3a2a5a"}`,
+              color: value === opt ? "#a855f7" : "#7060a0",
+              padding: "5px 12px",
               borderRadius: "8px",
               cursor: "pointer",
-              fontSize: "11px",
+              fontSize: "12px",
               fontFamily: "'DM Mono', monospace",
               transition: "all 0.15s",
             }}
@@ -144,50 +129,48 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
     </div>
   );
 
-  const quickGenres =
-    lang === "tr"
-      ? [
-          "✦ Fantezi",
-          "◈ Bilim Kurgu",
-          "◉ Gerilim",
-          "♥ Romantik",
-          "△ Korku",
-          "◆ Drama",
-        ]
-      : [
-          "✦ Fantasy",
-          "◈ Sci-Fi",
-          "◉ Thriller",
-          "♥ Romance",
-          "△ Horror",
-          "◆ Drama",
-        ];
+  const quickGenres = isTR
+    ? [
+        "✦ Fantezi",
+        "◈ Bilim Kurgu",
+        "◉ Gerilim",
+        "♥ Romantik",
+        "△ Korku",
+        "◆ Drama",
+      ]
+    : [
+        "✦ Fantasy",
+        "◈ Sci-Fi",
+        "◉ Thriller",
+        "♥ Romance",
+        "△ Horror",
+        "◆ Drama",
+      ];
 
   return (
-    <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-      {/* Search input */}
+    <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+      {/* Search bar */}
       <div
         style={{
-          background: "#0f0f1e",
-          border: "1px solid #2a2a4a",
-          borderRadius: "20px",
-          padding: "6px 6px 6px 18px",
+          background: "#13111a",
+          border: "1px solid #3a2a5a",
+          borderRadius: "22px",
+          padding: "6px 6px 6px 20px",
           display: "flex",
           gap: "8px",
           alignItems: "center",
-          boxShadow: "0 20px 60px #00000060",
+          boxShadow: "0 24px 80px #00000070",
         }}
       >
-        <span style={{ color: "#FF6B35", fontSize: "20px", lineHeight: 1 }}>
+        <span style={{ color: "#a855f7", fontSize: "22px", lineHeight: 1 }}>
           ⌕
         </span>
         <input
-          ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          onKeyDown={(e) => e.key === "Enter" && doSearch()}
           placeholder={
-            lang === "tr"
+            isTR
               ? "Film, kitap, tür, ruh hali ara..."
               : "Search movies, books, genres, moods..."
           }
@@ -195,43 +178,43 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
             flex: 1,
             background: "transparent",
             border: "none",
-            color: "#f0f0ff",
-            fontSize: "15px",
+            color: "#f5f0ff",
+            fontSize: "16px",
             fontFamily: "'DM Sans', sans-serif",
-            padding: "10px 0",
+            padding: "11px 0",
             outline: "none",
           }}
         />
         <button
           onClick={() => setFiltersOpen((p) => !p)}
           style={{
-            background: filtersOpen ? "#FF6B3520" : "#1e1e32",
-            border: `1px solid ${filtersOpen ? "#FF6B35" : "transparent"}`,
-            color: filtersOpen ? "#FF6B35" : "#6060a0",
-            padding: "8px 14px",
-            borderRadius: "14px",
+            background: filtersOpen ? "#a855f720" : "#1a0f2e",
+            border: `1px solid ${filtersOpen ? "#a855f7" : "#3a2a5a"}`,
+            color: filtersOpen ? "#a855f7" : "#7060a0",
+            padding: "9px 16px",
+            borderRadius: "16px",
             cursor: "pointer",
-            fontSize: "12px",
+            fontSize: "13px",
             fontFamily: "'DM Mono', monospace",
             whiteSpace: "nowrap",
             transition: "all 0.2s",
           }}
         >
-          {t?.filters || "⊞ Filters"}
+          {isTR ? "⊞ Filtreler" : "⊞ Filters"}
         </button>
         <button
-          onClick={handleSearch}
+          onClick={doSearch}
           disabled={loading}
           style={{
             background: loading
-              ? "#3a3a5a"
-              : "linear-gradient(135deg, #FF6B35, #E55A2B)",
+              ? "#3a2a5a"
+              : "linear-gradient(135deg, #a855f7, #ec4899)",
             border: "none",
             color: "#fff",
-            padding: "10px 22px",
-            borderRadius: "14px",
+            padding: "11px 26px",
+            borderRadius: "16px",
             cursor: loading ? "wait" : "pointer",
-            fontSize: "14px",
+            fontSize: "15px",
             fontFamily: "'DM Mono', monospace",
             fontWeight: "700",
             whiteSpace: "nowrap",
@@ -254,87 +237,86 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
               }}
             />
           )}
-          {t?.search || "Search"}
+          {isTR ? "Ara" : "Search"}
         </button>
       </div>
 
-      {/* Filters panel */}
+      {/* Filters */}
       {filtersOpen && (
         <div
           style={{
-            background: "#0f0f1e",
-            border: "1px solid #2a2a4a",
-            borderRadius: "16px",
-            padding: "20px",
-            marginTop: "8px",
+            background: "#13111a",
+            border: "1px solid #3a2a5a",
+            borderRadius: "18px",
+            padding: "22px",
+            marginTop: "10px",
             display: "flex",
-            gap: "16px",
+            gap: "18px",
             flexDirection: "column",
             animation: "slideDown 0.2s ease",
           }}
         >
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
             <FilterRow
-              label={t?.format || "Format"}
-              options={formats}
+              label={isTR ? "Format" : "Format"}
+              options={isTR ? FORMATS_TR : FORMATS_EN}
               value={format}
               onChange={setFormat}
             />
             <FilterRow
-              label={t?.genre || "Genre"}
-              options={genres}
+              label={isTR ? "Tür" : "Genre"}
+              options={isTR ? GENRES_TR : GENRES_EN}
               value={genre}
               onChange={setGenre}
             />
           </div>
-          <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
             <FilterRow
-              label={t?.language || "Language"}
-              options={languages}
+              label={isTR ? "Dil" : "Language"}
+              options={isTR ? LANGS_TR : LANGS_EN}
               value={language}
               onChange={setLanguage}
             />
             <FilterRow
-              label={t?.year || "Year"}
-              options={YEAR_RANGES}
+              label={isTR ? "Yıl" : "Year"}
+              options={YEARS}
               value={yearRange}
               onChange={setYearRange}
             />
           </div>
           <button
-            onClick={handleSearch}
+            onClick={doSearch}
             style={{
-              background: "linear-gradient(135deg, #FF6B35, #E55A2B)",
+              background: "linear-gradient(135deg, #a855f7, #ec4899)",
               border: "none",
               color: "#fff",
-              padding: "10px",
-              borderRadius: "10px",
+              padding: "12px",
+              borderRadius: "12px",
               cursor: "pointer",
               fontFamily: "'DM Mono', monospace",
               fontWeight: "700",
-              fontSize: "13px",
+              fontSize: "14px",
               width: "100%",
             }}
           >
-            {t?.applyFilters || "Apply Filters & Search"}
+            {isTR ? "Filtrele & Ara" : "Apply Filters & Search"}
           </button>
         </div>
       )}
 
-      {/* Quick genre chips */}
+      {/* Quick chips */}
       <div
         style={{
           display: "flex",
           gap: "8px",
           flexWrap: "wrap",
           justifyContent: "center",
-          marginTop: "16px",
+          marginTop: "18px",
         }}
       >
         {quickGenres.map((g) => {
           const label = g.split(" ")[1];
-          const englishLabel =
-            lang === "tr" ? GENRE_MAP_TR[label] || label : label;
+          const englishLabel = isTR ? TR_TO_EN[label] || label : label;
           return (
             <button
               key={g}
@@ -348,54 +330,29 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
                 })
               }
               style={{
-                background: "#12121f",
-                border: "1px solid #2a2a4a",
-                color: "#6060a0",
-                padding: "6px 14px",
-                borderRadius: "20px",
+                background: "#13111a",
+                border: "1px solid #3a2a5a",
+                color: "#7060a0",
+                padding: "7px 16px",
+                borderRadius: "22px",
                 cursor: "pointer",
-                fontSize: "12px",
+                fontSize: "13px",
                 fontFamily: "'DM Mono', monospace",
                 transition: "all 0.2s",
               }}
               onMouseEnter={(e) => {
-                e.target.style.borderColor = "#FF6B35";
-                e.target.style.color = "#FF6B35";
+                e.currentTarget.style.borderColor = "#a855f7";
+                e.currentTarget.style.color = "#a855f7";
               }}
               onMouseLeave={(e) => {
-                e.target.style.borderColor = "#2a2a4a";
-                e.target.style.color = "#6060a0";
+                e.currentTarget.style.borderColor = "#3a2a5a";
+                e.currentTarget.style.color = "#7060a0";
               }}
             >
               {g}
             </button>
           );
         })}
-        {/* Turkish books shortcut */}
-        <button
-          onClick={() =>
-            onSearch({
-              query: "roman",
-              genre: "All",
-              format: "Book",
-              language: "Türkçe",
-              yearRange: "All",
-            })
-          }
-          style={{
-            background: "#FF6B3515",
-            border: "1px solid #FF6B3540",
-            color: "#FF6B35",
-            padding: "6px 14px",
-            borderRadius: "20px",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontFamily: "'DM Mono', monospace",
-            transition: "all 0.2s",
-          }}
-        >
-          🇹🇷 Türkçe Kitaplar
-        </button>
       </div>
     </div>
   );
