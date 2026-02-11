@@ -1,69 +1,44 @@
-const BEARER = import.meta.env.VITE_TMDB_BEARER;
+const https = require("https");
 
-const get = async (path, params = {}) => {
-  const query = new URLSearchParams(params).toString();
-  const qs = query ? "?" + query : "";
+module.exports = function handler(req, res) {
+  const path = req.query.path ? "/" + req.query.path.join("/") : "/";
 
-  // Always use proxy path - works both locally (Vite proxy) and on Vercel
-  const url = `/api/tmdb${path}${qs}`;
+  const url = `https://api.themoviedb.org/3${path}`;
+  const bearer = process.env.TMDB_BEARER || process.env.VITE_TMDB_BEARER;
 
-  const res = await fetch(url);
+  console.log("Proxying to:", url);
 
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`TMDB ${res.status}: ${text}`);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    res.status(200).end();
+    return;
   }
-  return res.json();
-};
 
-export const getPosterUrl = (path, size = "w500") =>
-  path ? `https://image.tmdb.org/t/p/${size}${path}` : null;
+  if (!bearer) {
+    res.status(500).json({ error: "Missing TMDB_BEARER env variable" });
+    return;
+  }
 
-export const searchMovies = (query, page = 1) =>
-  get("/search/movie", {
-    query,
-    page,
-    include_adult: false,
-    language: "tr-TR",
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${bearer}`,
+    },
+  };
+
+  const proxyReq = https.request(url, options, (proxyRes) => {
+    res.status(proxyRes.statusCode);
+    res.setHeader("Content-Type", "application/json");
+    proxyRes.pipe(res);
   });
 
-export const getMovieDetails = (id) =>
-  get(`/movie/${id}`, {
-    append_to_response: "credits,videos,similar",
-    language: "tr-TR",
+  proxyReq.on("error", (err) => {
+    console.error("TMDB proxy error:", err.message);
+    res.status(500).json({ error: err.message });
   });
 
-export const getTrending = (timeWindow = "week") =>
-  get(`/trending/movie/${timeWindow}`, { language: "tr-TR" });
-
-export const getTopRated = (page = 1) =>
-  get("/movie/top_rated", { page, language: "tr-TR" });
-
-export const getNowPlaying = (page = 1) =>
-  get("/movie/now_playing", { page, language: "tr-TR" });
-
-export const getUpcoming = (page = 1) =>
-  get("/movie/upcoming", { page, language: "tr-TR" });
-
-export const discoverMovies = (params = {}) =>
-  get("/discover/movie", {
-    sort_by: "popularity.desc",
-    include_adult: false,
-    language: "tr-TR",
-    ...params,
-  });
-
-export const getGenres = () => get("/genre/movie/list", { language: "tr-TR" });
-
-export const GENRE_IDS = {
-  Action: 28,
-  Comedy: 35,
-  Drama: 18,
-  Fantasy: 14,
-  Horror: 27,
-  Mystery: 9648,
-  Romance: 10749,
-  "Sci-Fi": 878,
-  Thriller: 53,
-  Animation: 16,
+  proxyReq.end();
 };
