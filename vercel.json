@@ -4,5 +4,10 @@
       "runtime": "nodejs20.x"
     }
   },
-  "rewrites": [{ "source": "/api/tmdb/:path*", "destination": "/api/tmdb" }]
+  "rewrites": [
+    {
+      "source": "/api/tmdb/:path*",
+      "destination": "/api/tmdb"
+    }
+  ]
 }
