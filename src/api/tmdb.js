@@ -1,18 +1,29 @@
 const https = require("https");
 
 module.exports = function handler(req, res) {
-  const rawPath = req.url.replace(/^\/api\/tmdb/, "") || "/";
-  const url = `https://api.themoviedb.org/3${rawPath}`;
+  let tmdbPath = req.url || "/";
 
-  // Try both with and without VITE_ prefix
-  const bearer = process.env.VITE_TMDB_BEARER || process.env.TMDB_BEARER;
+  tmdbPath = tmdbPath.replace(/^\/api\/tmdb/, "");
+
+  if (!tmdbPath || tmdbPath === "") tmdbPath = "/";
+
+  const url = `https://api.themoviedb.org/3${tmdbPath}`;
+  const bearer = process.env.TMDB_BEARER || process.env.VITE_TMDB_BEARER;
+
+  console.log("Proxying to:", url);
 
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+
+  if (req.method === "OPTIONS") {
+    res.statusCode = 200;
+    res.end();
+    return;
+  }
 
   if (!bearer) {
     res.statusCode = 500;
-    res.end(JSON.stringify({ error: "Missing TMDB bearer token" }));
+    res.end(JSON.stringify({ error: "Missing TMDB_BEARER env variable" }));
     return;
   }
 

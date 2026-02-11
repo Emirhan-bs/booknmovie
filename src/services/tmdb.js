@@ -1,25 +1,14 @@
 const BEARER = import.meta.env.VITE_TMDB_BEARER;
-const IS_DEV = import.meta.env.DEV;
 
 const get = async (path, params = {}) => {
   const query = new URLSearchParams(params).toString();
   const qs = query ? "?" + query : "";
 
-  // Dev: direct (needs VPN), Prod (Vercel): use proxy
-  const url = IS_DEV
-    ? `https://api.themoviedb.org/3${path}${qs}`
-    : `/api/tmdb${path}${qs}`;
+  // Always use proxy path - works both locally (Vite proxy) and on Vercel
+  const url = `/api/tmdb${path}${qs}`;
 
-  const options = IS_DEV
-    ? {
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${BEARER}`,
-        },
-      }
-    : {};
+  const res = await fetch(url);
 
-  const res = await fetch(url, options);
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`TMDB ${res.status}: ${text}`);
