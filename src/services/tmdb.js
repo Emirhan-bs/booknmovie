@@ -1,19 +1,25 @@
-// Direct browser requests - works when VPN is active
-const BASE_URL = "https://api.themoviedb.org/3";
 const BEARER = import.meta.env.VITE_TMDB_BEARER;
+const IS_DEV = import.meta.env.DEV;
 
 const get = async (path, params = {}) => {
   const query = new URLSearchParams(params).toString();
-  const url = `${BASE_URL}${path}${query ? "?" + query : ""}`;
+  const qs = query ? "?" + query : "";
 
-  const res = await fetch(url, {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${BEARER}`,
-    },
-  });
+  // Dev: direct (needs VPN), Prod (Vercel): use proxy
+  const url = IS_DEV
+    ? `https://api.themoviedb.org/3${path}${qs}`
+    : `/api/tmdb${path}${qs}`;
 
+  const options = IS_DEV
+    ? {
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${BEARER}`,
+        },
+      }
+    : {};
+
+  const res = await fetch(url, options);
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`TMDB ${res.status}: ${text}`);
