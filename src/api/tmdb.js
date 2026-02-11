@@ -3,10 +3,18 @@ const https = require("https");
 module.exports = function handler(req, res) {
   const rawPath = req.url.replace(/^\/api\/tmdb/, "") || "/";
   const url = `https://api.themoviedb.org/3${rawPath}`;
-  const bearer = process.env.VITE_TMDB_BEARER;
+
+  // Try both with and without VITE_ prefix
+  const bearer = process.env.VITE_TMDB_BEARER || process.env.TMDB_BEARER;
 
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET");
+
+  if (!bearer) {
+    res.statusCode = 500;
+    res.end(JSON.stringify({ error: "Missing TMDB bearer token" }));
+    return;
+  }
 
   const options = {
     method: "GET",
