@@ -1,6 +1,6 @@
-const https = require("https");
+import https from "https";
 
-module.exports = function handler(req, res) {
+export default function handler(req, res) {
   let tmdbPath = req.url || "/";
   tmdbPath = tmdbPath.replace(/^\/api\/tmdb/, "");
   if (!tmdbPath || tmdbPath === "") tmdbPath = "/";
@@ -43,4 +43,4 @@ module.exports = function handler(req, res) {
   });
 
   proxyReq.end();
-};
+}
