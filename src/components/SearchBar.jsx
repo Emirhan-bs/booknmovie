@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 const GENRES_EN = [
   "All",
@@ -36,6 +36,7 @@ const TR_TO_EN = {
   "Bilim Kurgu": "Sci-Fi",
   Gerilim: "Thriller",
 };
+
 const LANGS_TR = [
   "Tümü",
   "Türkçe",
@@ -92,7 +93,7 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
   };
 
   const FilterRow = ({ label, options, value, onChange }) => (
-    <div>
+    <div style={{ flex: 1, minWidth: "min(100%, 180px)" }}>
       <p
         style={{
           margin: "0 0 8px",
@@ -100,7 +101,7 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
           fontSize: "11px",
           fontFamily: "'DM Mono', monospace",
           textTransform: "uppercase",
-          letterSpacing: "1.5px",
+          letterSpacing: "1.2px",
         }}
       >
         {label}
@@ -114,12 +115,13 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
               background: value === opt ? "#a855f720" : "transparent",
               border: `1px solid ${value === opt ? "#a855f7" : "#3a2a5a"}`,
               color: value === opt ? "#a855f7" : "#7060a0",
-              padding: "5px 12px",
+              padding: "6px 10px",
               borderRadius: "8px",
               cursor: "pointer",
               fontSize: "12px",
               fontFamily: "'DM Mono', monospace",
               transition: "all 0.15s",
+              whiteSpace: "nowrap",
             }}
           >
             {opt}
@@ -129,60 +131,148 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
     </div>
   );
 
-  const quickGenres = isTR
-    ? [
-        "✦ Fantezi",
-        "◈ Bilim Kurgu",
-        "◉ Gerilim",
-        "♥ Romantik",
-        "△ Korku",
-        "◆ Drama",
-      ]
-    : [
-        "✦ Fantasy",
-        "◈ Sci-Fi",
-        "◉ Thriller",
-        "♥ Romance",
-        "△ Horror",
-        "◆ Drama",
-      ];
+  // Senin verdiğin icon'ları kullan
+  const quickGenres = [
+    {
+      key: "Fantasy",
+      label: isTR ? "Fantezi" : "Fantasy",
+      icon: (
+        <img
+          src="/public/magic-hat.svg"
+          alt="Fantasy"
+          style={{
+            width: "20px",
+            height: "20px",
+            filter:
+              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+          }}
+        />
+      ),
+    },
+    {
+      key: "Sci-Fi",
+      label: isTR ? "Bilim Kurgu" : "Sci-Fi",
+      icon: (
+        <img
+          src="/public/scifi.svg"
+          alt="Sci-Fi"
+          style={{
+            width: "20px",
+            height: "20px",
+            filter:
+              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+          }}
+        />
+      ),
+    },
+    {
+      key: "Romance",
+      label: isTR ? "Romantik" : "Romance",
+      icon: (
+        <img
+          src="/public/heart.svg"
+          alt="Romance"
+          style={{
+            width: "20px",
+            height: "20px",
+            filter:
+              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+          }}
+        />
+      ),
+    },
+    {
+      key: "Horror",
+      label: isTR ? "Korku" : "Horror",
+      icon: (
+        <img
+          src="/public/horror.svg"
+          alt="Horror"
+          style={{
+            width: "20px",
+            height: "20px",
+            filter:
+              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+          }}
+        />
+      ),
+    },
+    {
+      key: "Thriller",
+      label: isTR ? "Gerilim" : "Thriller",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <circle cx="12" cy="12" r="10" />
+          <circle
+            cx="12"
+            cy="12"
+            r="6"
+            fill="none"
+            stroke="#0c0a14"
+            strokeWidth="1.5"
+          />
+          <circle cx="12" cy="12" r="2" />
+        </svg>
+      ),
+    },
+    {
+      key: "Drama",
+      label: "Drama",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7 13.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5 5.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.75-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5zm5-5.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+        </svg>
+      ),
+    },
+  ];
 
   return (
-    <div style={{ maxWidth: "760px", margin: "0 auto" }}>
+    <div
+      style={{
+        maxWidth: "820px",
+        margin: "0 auto",
+        padding: "0 clamp(12px, 3vw, 20px)",
+      }}
+    >
       {/* Search bar */}
       <div
         style={{
           background: "#13111a",
           border: "1px solid #3a2a5a",
-          borderRadius: "22px",
-          padding: "6px 6px 6px 20px",
+          borderRadius: "20px",
+          padding: "clamp(6px, 1.5vw, 8px) clamp(10px, 2vw, 12px)",
           display: "flex",
           gap: "8px",
           alignItems: "center",
-          boxShadow: "0 24px 80px #00000070",
+          boxShadow: "0 20px 60px #00000060",
+          flexWrap: "wrap",
         }}
       >
-        <span style={{ color: "#a855f7", fontSize: "22px", lineHeight: 1 }}>
+        <span
+          style={{
+            color: "#a855f7",
+            fontSize: "clamp(18px, 4vw, 22px)",
+            lineHeight: 1,
+            flexShrink: 0,
+          }}
+        >
           ⌕
         </span>
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && doSearch()}
-          placeholder={
-            isTR
-              ? "Film, kitap, tür, ruh hali ara..."
-              : "Search movies, books, genres, moods..."
-          }
+          placeholder={isTR ? "Film, kitap ara..." : "Search movies, books..."}
           style={{
-            flex: 1,
+            flex: "1 1 140px",
             background: "transparent",
             border: "none",
             color: "#f5f0ff",
-            fontSize: "16px",
+            fontSize: "clamp(14px, 3.5vw, 16px)",
             fontFamily: "'DM Sans', sans-serif",
-            padding: "11px 0",
+            padding: "10px 4px",
             outline: "none",
+            minWidth: 0,
           }}
         />
         <button
@@ -191,16 +281,17 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
             background: filtersOpen ? "#a855f720" : "#1a0f2e",
             border: `1px solid ${filtersOpen ? "#a855f7" : "#3a2a5a"}`,
             color: filtersOpen ? "#a855f7" : "#7060a0",
-            padding: "9px 16px",
-            borderRadius: "16px",
+            padding: "8px 12px",
+            borderRadius: "12px",
             cursor: "pointer",
-            fontSize: "13px",
+            fontSize: "12px",
             fontFamily: "'DM Mono', monospace",
             whiteSpace: "nowrap",
             transition: "all 0.2s",
+            flexShrink: 0,
           }}
         >
-          {isTR ? "⊞ Filtreler" : "⊞ Filters"}
+          {isTR ? "⊞ Filtre" : "⊞ Filter"}
         </button>
         <button
           onClick={doSearch}
@@ -211,10 +302,10 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
               : "linear-gradient(135deg, #a855f7, #ec4899)",
             border: "none",
             color: "#fff",
-            padding: "11px 26px",
-            borderRadius: "16px",
+            padding: "10px 18px",
+            borderRadius: "12px",
             cursor: loading ? "wait" : "pointer",
-            fontSize: "15px",
+            fontSize: "clamp(13px, 3vw, 14px)",
             fontFamily: "'DM Mono', monospace",
             fontWeight: "700",
             whiteSpace: "nowrap",
@@ -222,6 +313,7 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
             display: "flex",
             alignItems: "center",
             gap: "6px",
+            flexShrink: 0,
           }}
         >
           {loading && (
@@ -247,16 +339,16 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
           style={{
             background: "#13111a",
             border: "1px solid #3a2a5a",
-            borderRadius: "18px",
-            padding: "22px",
+            borderRadius: "16px",
+            padding: "18px",
             marginTop: "10px",
             display: "flex",
-            gap: "18px",
+            gap: "14px",
             flexDirection: "column",
             animation: "slideDown 0.2s ease",
           }}
         >
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <FilterRow
               label={isTR ? "Format" : "Format"}
               options={isTR ? FORMATS_TR : FORMATS_EN}
@@ -270,7 +362,7 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
               onChange={setGenre}
             />
           </div>
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <FilterRow
               label={isTR ? "Dil" : "Language"}
               options={isTR ? LANGS_TR : LANGS_EN}
@@ -290,69 +382,86 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
               background: "linear-gradient(135deg, #a855f7, #ec4899)",
               border: "none",
               color: "#fff",
-              padding: "12px",
-              borderRadius: "12px",
+              padding: "11px",
+              borderRadius: "10px",
               cursor: "pointer",
               fontFamily: "'DM Mono', monospace",
               fontWeight: "700",
-              fontSize: "14px",
-              width: "100%",
+              fontSize: "13px",
             }}
           >
-            {isTR ? "Filtrele & Ara" : "Apply Filters & Search"}
+            {isTR ? "Uygula" : "Apply"}
           </button>
         </div>
       )}
 
-      {/* Quick chips */}
+      {/* Quick genre chips with icons */}
       <div
         style={{
           display: "flex",
           gap: "8px",
           flexWrap: "wrap",
           justifyContent: "center",
-          marginTop: "18px",
+          marginTop: "16px",
         }}
       >
-        {quickGenres.map((g) => {
-          const label = g.split(" ")[1];
-          const englishLabel = isTR ? TR_TO_EN[label] || label : label;
-          return (
-            <button
-              key={g}
-              onClick={() =>
-                onSearch({
-                  query,
-                  genre: englishLabel,
-                  format: "All",
-                  language: "All",
-                  yearRange: "All",
-                })
-              }
+        {quickGenres.map((g) => (
+          <button
+            key={g.key}
+            onClick={() =>
+              onSearch({
+                query,
+                genre: g.key,
+                format: "All",
+                language: "All",
+                yearRange: "All",
+              })
+            }
+            style={{
+              background: "#13111a",
+              border: "1px solid #3a2a5a",
+              color: "#7060a0",
+              padding: "7px 14px",
+              borderRadius: "18px",
+              cursor: "pointer",
+              fontSize: "clamp(11px, 2.5vw, 13px)",
+              fontFamily: "'DM Mono', monospace",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              whiteSpace: "nowrap",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "#a855f7";
+              e.currentTarget.style.color = "#a855f7";
+              const img = e.currentTarget.querySelector("img");
+              if (img)
+                img.style.filter =
+                  "brightness(0) saturate(100%) invert(55%) sepia(100%) saturate(2000%) hue-rotate(240deg)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "#3a2a5a";
+              e.currentTarget.style.color = "#7060a0";
+              const img = e.currentTarget.querySelector("img");
+              if (img)
+                img.style.filter =
+                  "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)";
+            }}
+          >
+            <span
               style={{
-                background: "#13111a",
-                border: "1px solid #3a2a5a",
-                color: "#7060a0",
-                padding: "7px 16px",
-                borderRadius: "22px",
-                cursor: "pointer",
-                fontSize: "13px",
-                fontFamily: "'DM Mono', monospace",
-                transition: "all 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#a855f7";
-                e.currentTarget.style.color = "#a855f7";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "#3a2a5a";
-                e.currentTarget.style.color = "#7060a0";
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              {g}
-            </button>
-          );
-        })}
+              {g.icon}
+            </span>
+            <span>{g.label}</span>
+          </button>
+        ))}
       </div>
     </div>
   );
