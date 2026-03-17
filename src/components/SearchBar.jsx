@@ -131,20 +131,17 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
     </div>
   );
 
-  // Senin verdiğin icon'ları kullan
   const quickGenres = [
     {
       key: "Fantasy",
       label: isTR ? "Fantezi" : "Fantasy",
       icon: (
         <img
-          src="/public/magic-hat.svg"
+          src="/magic-hat.png"
           alt="Fantasy"
           style={{
-            width: "20px",
-            height: "20px",
-            filter:
-              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+            width: "32px",
+            height: "42px",
           }}
         />
       ),
@@ -154,13 +151,11 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
       label: isTR ? "Bilim Kurgu" : "Sci-Fi",
       icon: (
         <img
-          src="/public/scifi.svg"
+          src="/ufo.png"
           alt="Sci-Fi"
           style={{
-            width: "20px",
-            height: "20px",
-            filter:
-              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+            width: "32px",
+            height: "42px",
           }}
         />
       ),
@@ -170,13 +165,11 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
       label: isTR ? "Romantik" : "Romance",
       icon: (
         <img
-          src="/public/heart.svg"
+          src="/heart.png"
           alt="Romance"
           style={{
-            width: "20px",
-            height: "20px",
-            filter:
-              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+            width: "32px",
+            height: "42px",
           }}
         />
       ),
@@ -186,13 +179,11 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
       label: isTR ? "Korku" : "Horror",
       icon: (
         <img
-          src="/public/horror.svg"
+          src="/horror.png"
           alt="Horror"
           style={{
-            width: "20px",
-            height: "20px",
-            filter:
-              "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)",
+            width: "32px",
+            height: "42px",
           }}
         />
       ),
@@ -201,26 +192,28 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
       key: "Thriller",
       label: isTR ? "Gerilim" : "Thriller",
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="12" cy="12" r="10" />
-          <circle
-            cx="12"
-            cy="12"
-            r="6"
-            fill="none"
-            stroke="#0c0a14"
-            strokeWidth="1.5"
-          />
-          <circle cx="12" cy="12" r="2" />
-        </svg>
+        <img
+          src="/thriller.png"
+          alt="Thriller"
+          style={{
+            width: "32px",
+            height: "42px",
+          }}
+        />
       ),
     },
     {
       key: "Drama",
       label: "Drama",
       icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7 13.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5 5.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.75-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5zm5-5.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 14 14"
+          fill="#a855f7"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M 1,4.9664652 C 3.54449,11.092585 5.56,10.606465 5.56,10.606465 7.618367,9.3929952 6.614286,3.3844152 6.614286,3.3844152 4.749388,5.1844152 1,4.9664652 1,4.9664652 l 0,0 z m 1.748571,2.46857 c 0,0 -0.05878,-0.92939 0.526531,-1.05429 0,0 0.686939,-0.26816 1.054286,0.70286 0.0012,0 -0.63551,-0.57796 -1.580817,0.35143 l 0,0 z m 2.108572,-0.70286 c 0,0 -0.02449,-0.68571 0.52653,-0.88653 0,0 0.988164,-0.21796 1.054286,0.71143 0.0012,-10e-4 -0.852245,-0.44449 -1.580816,0.1751 l 0,0 z m -1.054286,1.75714 c 0,0 1.757143,0.0257 2.284898,-0.70285 0,0 0.309796,1.12163 -0.879184,1.40693 0,0 -1.054285,0.15796 -1.405714,-0.70408 l 0,0 z M 13,4.9664652 c 0,0 -3.749388,0.21795 -5.61551,-1.58205 0,0 -1.004082,6.00858 1.054286,7.2220498 0,0 2.016734,0.48612 4.561224,-5.6399998 l 0,0 z m -5.087755,0.86204 c 0.945306,0.91959 1.582041,0.35142 1.582041,0.35142 C 9.125714,7.1423752 8.44,6.8827852 8.44,6.8827852 7.853469,6.7493152 7.912245,5.8285052 7.912245,5.8285052 l 0,0 z m 2.108571,0.70285 c 0.728572,0.61102 1.582041,0.17511 1.582041,0.17511 -0.06735,0.92081 -1.054286,0.70285 -1.054286,0.70285 -0.544898,-0.19959 -0.527755,-0.87796 -0.527755,-0.87796 l 0,0 z m -2.142857,1.96653 c 0.351429,-0.85347 1.405714,-0.70408 1.405714,-0.70408 1.180409,0.28531 0.87796,1.41429 0.87796,1.41429 -0.526531,-0.72735 -2.283674,-0.71021 -2.283674,-0.71021 l 0,0 z" />
         </svg>
       ),
     },
@@ -435,18 +428,10 @@ export default function SearchBar({ onSearch, loading, lang, t }) {
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "#a855f7";
               e.currentTarget.style.color = "#a855f7";
-              const img = e.currentTarget.querySelector("img");
-              if (img)
-                img.style.filter =
-                  "brightness(0) saturate(100%) invert(55%) sepia(100%) saturate(2000%) hue-rotate(240deg)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.borderColor = "#3a2a5a";
               e.currentTarget.style.color = "#7060a0";
-              const img = e.currentTarget.querySelector("img");
-              if (img)
-                img.style.filter =
-                  "brightness(0) saturate(100%) invert(55%) sepia(64%) saturate(1500%) hue-rotate(240deg)";
             }}
           >
             <span

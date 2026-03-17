@@ -277,7 +277,7 @@ const SectionHeader = ({ title, subtitle, count }) => (
 // ── AppInner ──────────────────────────────────────────────────────────────────
 function AppInner() {
   const { favorites, myList } = useFavorites();
-  const [lang, setLang] = useState("tr");
+  const [lang, setLang] = useState("en");
   const t = STRINGS[lang];
   const [activeTab, setActiveTab] = useState("discover");
   const [items, setItems] = useState([]);
